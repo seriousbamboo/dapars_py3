@@ -1,4 +1,4 @@
-Annotated_3UTR=hg19_refseq_extracted_3UTR.bed
+Annotated_3UTR=/home/jovyan/hg19_refseq_extracted_3UTR.bed
 Group1_Tophat_aligned_Wig=Condition_A_chrX.wig
 Group2_Tophat_aligned_Wig=Condition_B_chrX.wig
 Output_directory=DaPars_Test_data/
