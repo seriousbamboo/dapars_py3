@@ -4,6 +4,7 @@ import numpy as np
 import os
 import sys
 import datetime
+import argparse
 
 import scipy as sp
 import scipy.stats
@@ -115,10 +116,33 @@ def De_Novo_3UTR_Identification_Loading_Target_Wig_for_TCGA_Multiple_Samples_Mai
         #print "Please provide the configure file ..."
         print("Please provide the configure file ...")
         exit(1)
-    cfg_file = sys.argv[1]
+    
+    parser = argparse.ArgumentParser()
+    # @ the first two need to be specified in to dir level @ #
+    parser.add_argument("-g1","--Group1_Tophat_aligned_file", dest = "Group1_Tophat_aligned_file", help="wig files of group 1", nargs="+", type=str)
+    parser.add_argument("-g2","--Group2_Tophat_aligned_file", dest = "Group2_Tophat_aligned_file", help="wig files of group 2", nargs="+", type=str)
+    parser.add_argument("-o","--output_directory", dest = "output_directory", help="output dirctory", nargs=1, type=str)
+    parser.add_argument("-a","--Annotated_3UTR_file", dest = "Annotated_3UTR_file", help="Annotated 3UTR file input", nargs=1, type=str)
+    parser.add_argument("-r","--Output_result_file", dest = "Output_result_file", help="Name of output file", nargs=1, type=str)
+    
+    args = parser.parse_args()
+
+    Group1_Tophat_aligned_file = args.Group1_Tophat_aligned_file
+    Group2_Tophat_aligned_file = args.Group2_Tophat_aligned_file
+    output_directory = args.output_directory[0]
+    Annotated_3UTR_file = args.Annotated_3UTR_file[0]
+    Output_result_file = args.Output_result_file[0]
+
+    Num_least_in_group1_local = ''
+    Num_least_in_group2_local = ''
+    Coverage_cutoff_local = ''
+    FDR_cutoff_local = ''
+    Fold_change_cutoff_local = ''
+    PDUI_cutoff_local = ''
+    
+    
     #print >> sys.stderr, "[%s] Start Analysis ..." % time_now()
     print("[%s] Start Analysis ..." % time_now(), file=sys.stderr)
-    Group1_Tophat_aligned_file,Group2_Tophat_aligned_file,output_directory,Annotated_3UTR_file,Output_result_file,Num_least_in_group1_local,Num_least_in_group2_local,Coverage_cutoff_local,FDR_cutoff_local,Fold_change_cutoff_local,PDUI_cutoff_local = parse_cfgfile(cfg_file)
     
     num_group_1 = len(Group1_Tophat_aligned_file)       # =1
     All_Sample_files = Group1_Tophat_aligned_file[:]    # ['Condition_A_chrX.wig']
@@ -746,7 +770,7 @@ Num_least_in_group2 = 1
 Coverage_cutoff = 30
 
 FDR_cutoff = 0.05
-PDUI_cutoff = 0.2
+PDUI_cutoff = 0.5
 Fold_change_cutoff = 0.59 #1.5 fold change
 
 
